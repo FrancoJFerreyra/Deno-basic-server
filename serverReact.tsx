@@ -6,9 +6,12 @@ import { createApp } from "https://deno.land/x/servest@v1.3.4/mod.ts";
 
 const app = createApp();
 
+const colorsAcc: Array<string> = []
+
 app.handle('/', async (req) => {
     const colorForm = await req.formData()
     const colorName = colorForm!.value('color');
+    colorsAcc.push(colorName)
     await req.respond({
         status: 200,
         headers: new Headers({
@@ -27,7 +30,7 @@ app.handle('/', async (req) => {
                     <button type="submit">Enviar</button>
                 </form>
                 <ul>
-                        <li style={{color: colorName}}>{colorName}</li>
+                    {colorsAcc.map(color => <li style={{color: color}} key={color}><b><p style={{color: color}}>{color}</p></b></li>)}
                 </ul>
             </body>
             </html>
